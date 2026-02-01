@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HolaMundoAspNet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe397efc9236f29000700b86ea65ae29d044d227")]
 [assembly: System.Reflection.AssemblyProductAttribute("HolaMundoAspNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HolaMundoAspNet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -61,6 +61,7 @@
         .btn-main { background: var(--primary); color: white; }
         .btn-outline { border: 1px solid var(--primary); color: var(--primary); background: transparent; }
         .btn-danger { background: var(--danger); color: white; padding: 6px 12px; font-size: 13px; }
+        .btn-edit { background: var(--primary); color: white; padding: 6px 12px; font-size: 13px; }
         .btn:hover { opacity: 0.8; transform: translateY(-1px); }
 
         /* Tabla de Datos */
@@ -114,7 +115,7 @@
         
         <div class="controls">
             <input type="text" id="nombreInput" placeholder="Nombre completo del visitante...">
-            <button onclick="agregarVisita()" class="btn btn-main">Añadir Registro</button>
+            <button id="registrarBtn" onclick="guardarVisita()" class="btn btn-main">Registrar</button>
         </div>
 
         <div class="controls">
@@ -161,6 +162,8 @@
     // Inicialización
     document.addEventListener('DOMContentLoaded', cargarTodas);
 
+    let editingId = null;
+
     async function cargarTodas() {
         const res = await fetch('/visitas');
         const datos = await res.json();
@@ -173,19 +176,58 @@
             cuerpo.innerHTML = `<tr><td colspan="4" style="text-align:center">No hay registros encontrados</td></tr>`;
             return;
         }
-        cuerpo.innerHTML = datos.map(v => `
+        cuerpo.innerHTML = datos.map(v => {
+            const enEdicion = editingId === v.id;
+            const botonEliminar = enEdicion
+                ? `<button onclick="cancelarEdicion()" class="btn btn-danger">Cancelar</button>`
+                : `<button onclick="eliminarVisita(${v.id})" class="btn btn-danger">Eliminar</button>`;
+            const botonEditar = enEdicion
+                ? `<button onclick="aceptarEdicion(${v.id})" class="btn btn-edit">Aceptar</button>`
+                : `<button onclick="iniciarEdicion(${v.id})" class="btn btn-edit">Editar</button>`;
+            return `
             <tr>
                 <td><span class="badge">#${v.id}</span></td>
-                <td><strong>${v.nombre}</strong></td>
+                <td>
+                    ${enEdicion
+                        ? `<input type="text" id="editNombre-${v.id}" value="${v.nombre.replace(/"/g, '&quot;')}" style="width: 100%;">`
+                        : `<strong>${v.nombre}</strong>`}
+                </td>
                 <td>${new Date(v.fechaRegistro).toLocaleString()}</td>
                 <td>
-                    <button onclick="eliminarVisita(${v.id})" class="btn btn-danger">Borrar</button>
+                    ${botonEditar}
+                    ${botonEliminar}
                 </td>
             </tr>
-        `).join('');
+            `;
+        }).join('');
     }
 
-    async function agregarVisita() {
+    function iniciarEdicion(id) {
+        editingId = id;
+        cargarTodas();
+    }
+
+    function cancelarEdicion() {
+        editingId = null;
+        const input = document.getElementById('nombreInput');
+        input.value = '';
+        cargarTodas();
+    }
+
+    async function aceptarEdicion(id) {
+        const input = document.getElementById(`editNombre-${id}`);
+        const nombre = (input?.value || '').trim();
+        if (!nombre) return alert("Por favor, ingresa un nombre válido.");
+
+        const res = await fetch(`/visitas/${id}?nombre=${encodeURIComponent(nombre)}`, { method: 'PUT' });
+
+        if (res.ok) {
+            editingId = null;
+            cargarTodas();
+        }
+    }
+
+    async function guardarVisita() {
         const input = document.getElementById('nombreInput');
         const nombre = input.value.trim();
         if (!nombre) return alert("Por favor, ingresa un nombre válido.");

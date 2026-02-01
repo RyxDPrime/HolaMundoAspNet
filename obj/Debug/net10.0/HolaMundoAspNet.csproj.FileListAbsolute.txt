@@ -149,4 +149,5 @@ C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\bin\Debug\net10.0\runtimes
 C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\bin\Debug\net10.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\bin\Debug\net10.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\bin\Debug\net10.0\HolaMundoAspNet.staticwebassets.runtime.json
-C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\obj\Debug\net10.0\compressed\pjfyda7kiy-{0}-9oqv4fvcxd-9oqv4fvcxd.gz
+C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\obj\Debug\net10.0\HolaMundoAspNet.sourcelink.json
+C:\Users\yujiy\Desktop\ProyectoAlonso\HolaMundoAspNet\obj\Debug\net10.0\compressed\pjfyda7kiy-{0}-5gbsva412k-5gbsva412k.gz

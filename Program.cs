@@ -73,6 +73,20 @@ app.MapPost("/visitas", async (string nombre, AppDbContext db) =>
     return Results.Created($"/visitas/{nuevaVisita.Id}", nuevaVisita);
 });
 
+// PUT: Actualizar nombre de una visita
+app.MapPut("/visitas/{id:int}", async (int id, string nombre, AppDbContext db) =>
+{
+    if (string.IsNullOrWhiteSpace(nombre)) return Results.BadRequest("El nombre no puede estar vacío.");
+
+    var visita = await db.Visitas.FindAsync(id);
+    if (visita is null) return Results.NotFound();
+
+    visita.Nombre = nombre.Trim();
+    await db.SaveChangesAsync();
+
+    return Results.Ok(visita);
+});
+
 // DELETE: Eliminar una visita
 app.MapDelete("/visitas/{id:int}", async (int id, AppDbContext db) => 
 {
